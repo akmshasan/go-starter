@@ -58,8 +58,8 @@ jobs:
             - name: Run migrations
               run: |
                 echo "DB Migration using Golang Migrate"
-                # migrate -path ./db/migration -database "postgresql://test:secret@localhost:5432/fruit_store?sslmode=disable" -verbose up
-                make migrate-up
+                migrate -path ./db/migration -database "postgresql://${{ secrets.POSTGRES_USER }}:${{ secrets.POSTGRES_PASSWORD }}@localhost:5432/${{ secrets.POSTGRES_DB }}?sslmode=disable" -verbose up
+                # make migrate-up
 
             - name: Test
               run: go test -v -cover ./...
