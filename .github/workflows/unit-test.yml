@@ -3,7 +3,7 @@ run-name: ${{ github.actor }} is testing out "Unit Test" with GitHub Actions �
 
 on:
   push:
-    branches: [ "dev" ]
+    branches: [ "main" ]
   pull_request:
     branches: [ "main" ]
 
@@ -35,7 +35,7 @@ jobs:
             - run: echo "🔎 The name of branch is ${{ github.ref }} and repository is ${{ github.repository }}."
 
             - name: Checkout code
-              uses: actions/checkout@v4
+              uses: actions/checkout@v3
             - run: echo "💡 The ${{ github.repository }} repository has been cloned to the runner."
             - run: echo "🖥️ The workflow is now ready to test code on the runner."
             
@@ -58,7 +58,8 @@ jobs:
             - name: Run migrations
               run: |
                 echo "DB Migration using Golang Migrate"
-                migrate -path ./db/migration -database "postgresql://test:secret@localhost:5432/fruit_store?sslmode=disable" -verbose up
+                # migrate -path ./db/migration -database "postgresql://test:secret@localhost:5432/fruit_store?sslmode=disable" -verbose up
+                make migrate-up
 
             - name: Test
               run: go test -v -cover ./...
