@@ -4,6 +4,7 @@ go 1.22.1
 
 require (
 	github.com/gin-gonic/gin v1.9.1
+	github.com/google/uuid v1.6.0
 	github.com/jackc/pgx/v5 v5.5.5
 	github.com/prometheus/client_golang v1.19.0
 	github.com/spf13/viper v1.18.2

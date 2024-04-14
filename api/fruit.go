@@ -49,7 +49,7 @@ func (server *Server) createFruit(ctx *gin.Context) {
 }
 
 type getFruitRequest struct {
-	ID int64 `uri:"id" binding:"required,min=1"`
+	ID string `uri:"id" binding:"required,uuid"`
 }
 
 func (server *Server) getFruit(ctx *gin.Context) {
@@ -99,7 +99,7 @@ func (server *Server) listFruit(ctx *gin.Context) {
 }
 
 type deleteFruitRequest struct {
-	ID int64 `uri:"id" binding:"required,min=1"`
+	ID string `uri:"id" binding:"required,uuid"`
 }
 
 func (server *Server) deleteFruit(ctx *gin.Context) {
@@ -124,8 +124,8 @@ func (server *Server) deleteFruit(ctx *gin.Context) {
 }
 
 type updateFruitRequest struct {
-	ID    int64 `form:"id" binding:"required"`
-	Price int64 `form:"price" binding:"required"`
+	ID    string `form:"id" binding:"required,uuid"`
+	Price int64  `form:"price" binding:"required"`
 }
 
 func (server *Server) updateFruit(ctx *gin.Context) {

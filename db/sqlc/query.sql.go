@@ -7,22 +7,27 @@ package db
 
 import (
 	"context"
+
+	"github.com/google/uuid"
 )
 
 const createFruit = `-- name: CreateFruit :one
 INSERT INTO fruit (
-  name, color, price, quantity
+  id, name, color, price, quantity
 ) VALUES (
-  $1, $2, $3, $4
-)
+  uuid_if_empty($6)::uuid, $1, $2, $3, $4
+) ON CONFLICT (id) DO UPDATE 
+  SET name = $2, color = $3, price = $4, quantity = $5
 RETURNING id, name, color, price, quantity, created_at
 `
 
 type CreateFruitParams struct {
-	Name     string `json:"name"`
-	Color    string `json:"color"`
-	Price    int64  `json:"price"`
-	Quantity int64  `json:"quantity"`
+	Name       string    `json:"name"`
+	Color      string    `json:"color"`
+	Price      int64     `json:"price"`
+	Quantity   int64     `json:"quantity"`
+	Quantity_2 int64     `json:"quantity_2"`
+	ID         uuid.UUID `json:"id"`
 }
 
 func (q *Queries) CreateFruit(ctx context.Context, arg CreateFruitParams) (Fruit, error) {
@@ -31,6 +36,8 @@ func (q *Queries) CreateFruit(ctx context.Context, arg CreateFruitParams) (Fruit
 		arg.Color,
 		arg.Price,
 		arg.Quantity,
+		arg.Quantity_2,
+		arg.ID,
 	)
 	var i Fruit
 	err := row.Scan(
@@ -49,7 +56,7 @@ DELETE FROM fruit
 WHERE id = $1
 `
 
-func (q *Queries) DeleteFruit(ctx context.Context, id int64) error {
+func (q *Queries) DeleteFruit(ctx context.Context, id string) error {
 	_, err := q.db.Exec(ctx, deleteFruit, id)
 	return err
 }
@@ -59,7 +66,7 @@ SELECT id, name, color, price, quantity, created_at FROM fruit
 WHERE id = $1 LIMIT 1
 `
 
-func (q *Queries) GetFruit(ctx context.Context, id int64) (Fruit, error) {
+func (q *Queries) GetFruit(ctx context.Context, id string) (Fruit, error) {
 	row := q.db.QueryRow(ctx, getFruit, id)
 	var i Fruit
 	err := row.Scan(
@@ -118,8 +125,8 @@ RETURNING id, name, color, price, quantity, created_at
 `
 
 type UpdateFruitParams struct {
-	ID    int64 `json:"id"`
-	Price int64 `json:"price"`
+	ID    string `json:"id"`
+	Price int64  `json:"price"`
 }
 
 func (q *Queries) UpdateFruit(ctx context.Context, arg UpdateFruitParams) (Fruit, error) {

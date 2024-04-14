@@ -8,10 +8,11 @@ ORDER BY id LIMIT $1 OFFSET $2;
 
 -- name: CreateFruit :one
 INSERT INTO fruit (
-  name, color, price, quantity
+  id, name, color, price, quantity
 ) VALUES (
-  $1, $2, $3, $4
-)
+  uuid_if_empty(sqlc.arg(id))::uuid, $1, $2, $3, $4
+) ON CONFLICT (id) DO UPDATE 
+  SET name = $2, color = $3, price = $4, quantity = $5
 RETURNING *;
 
 -- name: UpdateFruit :one
