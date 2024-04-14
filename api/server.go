@@ -33,8 +33,8 @@ func NewServer(store db.Store) *Server {
 	router.GET("/metrics", gin.WrapH(promhttp.Handler()))
 
 	// Add routes to router
-	router.GET("/", server.IndexPage)
-	router.GET("/health", server.HealthStatus)
+	router.GET("/", IndexPage)
+	router.GET("/health", HealthStatus)
 	router.POST("/fruits", server.createFruit)
 	router.GET("/fruits/:id", server.getFruit)
 	router.GET("/fruits", server.listFruit)

@@ -9,11 +9,11 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func (server *Server) IndexPage(ctx *gin.Context) {
+func IndexPage(ctx *gin.Context) {
 	ctx.JSON(http.StatusOK, gin.H{"message": "Index Page"})
 }
 
-func (server *Server) HealthStatus(ctx *gin.Context) {
+func HealthStatus(ctx *gin.Context) {
 	ctx.JSON(http.StatusOK, gin.H{"message": "OK"})
 }
 
