@@ -9,6 +9,14 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+func (server *Server) IndexPage(ctx *gin.Context) {
+	ctx.JSON(http.StatusOK, gin.H{"message": "Index Page"})
+}
+
+func (server *Server) HealthStatus(ctx *gin.Context) {
+	ctx.JSON(http.StatusOK, gin.H{"message": "OK"})
+}
+
 type createFruitRequest struct {
 	Name  string `json:"name" binding:"required"`
 	Color string `json:"color" binding:"required"`
@@ -34,7 +42,7 @@ func (server *Server) createFruit(ctx *gin.Context) {
 		return
 	}
 
-	ctx.JSON(http.StatusOK, fruit)
+	ctx.JSON(http.StatusCreated, fruit)
 
 }
 

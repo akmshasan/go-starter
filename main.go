@@ -4,7 +4,7 @@ import (
 	"context"
 	"log"
 
-	"github.com/akmshasan/fruit-store/api"
+	api "github.com/akmshasan/fruit-store/api"
 	db "github.com/akmshasan/fruit-store/db/sqlc"
 	"github.com/akmshasan/fruit-store/util"
 	"github.com/jackc/pgx/v5/pgxpool"
