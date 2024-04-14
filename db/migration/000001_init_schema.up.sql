@@ -1,5 +1,17 @@
+CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
+
+CREATE OR REPLACE FUNCTION public.uuid_if_empty(id uuid) RETURNS uuid 
+    LANGUAGE plpgsql
+    AS $$BEGIN 
+        IF id = uuid_nil() THEN 
+            RETURN uuid_generate_v4();
+        ELSE 
+            RETURN id;
+        END IF;
+    END$$;
+
 CREATE TABLE "fruit" (
-  "id" bigserial PRIMARY KEY,
+  "id" varchar PRIMARY KEY DEFAULT (uuid_generate_v4()),
   "name" varchar NOT NULL,
   "color" varchar NOT NULL,
   "price" bigint NOT NULL,

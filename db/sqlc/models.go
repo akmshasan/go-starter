@@ -9,7 +9,7 @@ import (
 )
 
 type Fruit struct {
-	ID        int64     `json:"id"`
+	ID        string    `json:"id"`
 	Name      string    `json:"name"`
 	Color     string    `json:"color"`
 	Price     int64     `json:"price"`
