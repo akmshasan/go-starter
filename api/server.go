@@ -4,6 +4,7 @@ import (
 	db "github.com/akmshasan/fruit-store/db/sqlc"
 	middleware "github.com/akmshasan/fruit-store/middleware"
 	"github.com/gin-gonic/gin"
+	"github.com/prometheus/client_golang/prometheus/promhttp"
 )
 
 // Server serve all HTTP requests for fruit-store
@@ -24,6 +25,9 @@ func NewServer(store db.Store) *Server {
 	// Add Logger Middleware
 	router.Use(middleware.RequestLogger())
 	router.Use(middleware.ResponseLogger())
+
+	// Add Prometheus middleware
+	router.GET("/metrics", gin.WrapH(promhttp.Handler()))
 
 	// Add routes to router
 	router.GET("/", server.IndexPage)
