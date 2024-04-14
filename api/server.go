@@ -22,6 +22,9 @@ func NewServer(store db.Store) *Server {
 	server := &Server{store: store}
 	router := gin.Default()
 
+	// Set a static favicon.ico
+	router.StaticFile("/favicon.ico", "./favicon.ico")
+
 	// Add Logger Middleware
 	router.Use(middleware.RequestLogger())
 	router.Use(middleware.ResponseLogger())
