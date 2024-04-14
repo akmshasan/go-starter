@@ -13,5 +13,6 @@ type Fruit struct {
 	Name      string    `json:"name"`
 	Color     string    `json:"color"`
 	Price     int64     `json:"price"`
+	Quantity  int64     `json:"quantity"`
 	CreatedAt time.Time `json:"created_at"`
 }

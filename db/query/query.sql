@@ -8,9 +8,9 @@ ORDER BY id LIMIT $1 OFFSET $2;
 
 -- name: CreateFruit :one
 INSERT INTO fruit (
-  name, color, price
+  name, color, price, quantity
 ) VALUES (
-  $1, $2, $3
+  $1, $2, $3, $4
 )
 RETURNING *;
 

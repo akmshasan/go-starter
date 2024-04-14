@@ -18,9 +18,10 @@ func (server *Server) HealthStatus(ctx *gin.Context) {
 }
 
 type createFruitRequest struct {
-	Name  string `json:"name" binding:"required"`
-	Color string `json:"color" binding:"required"`
-	Price int64  `json:"price" binding:"required"`
+	Name     string `json:"name" binding:"required"`
+	Color    string `json:"color" binding:"required"`
+	Price    int64  `json:"price" binding:"required"`
+	Quantity int64  `json:"quantity" binding:"required"`
 }
 
 func (server *Server) createFruit(ctx *gin.Context) {
@@ -31,9 +32,10 @@ func (server *Server) createFruit(ctx *gin.Context) {
 	}
 
 	arg := db.CreateFruitParams{
-		Name:  req.Name,
-		Color: req.Color,
-		Price: req.Price,
+		Name:     req.Name,
+		Color:    req.Color,
+		Price:    req.Price,
+		Quantity: req.Quantity,
 	}
 
 	fruit, err := server.store.CreateFruit(ctx, arg)

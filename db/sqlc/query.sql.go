@@ -11,27 +11,34 @@ import (
 
 const createFruit = `-- name: CreateFruit :one
 INSERT INTO fruit (
-  name, color, price
+  name, color, price, quantity
 ) VALUES (
-  $1, $2, $3
+  $1, $2, $3, $4
 )
-RETURNING id, name, color, price, created_at
+RETURNING id, name, color, price, quantity, created_at
 `
 
 type CreateFruitParams struct {
-	Name  string `json:"name"`
-	Color string `json:"color"`
-	Price int64  `json:"price"`
+	Name     string `json:"name"`
+	Color    string `json:"color"`
+	Price    int64  `json:"price"`
+	Quantity int64  `json:"quantity"`
 }
 
 func (q *Queries) CreateFruit(ctx context.Context, arg CreateFruitParams) (Fruit, error) {
-	row := q.db.QueryRow(ctx, createFruit, arg.Name, arg.Color, arg.Price)
+	row := q.db.QueryRow(ctx, createFruit,
+		arg.Name,
+		arg.Color,
+		arg.Price,
+		arg.Quantity,
+	)
 	var i Fruit
 	err := row.Scan(
 		&i.ID,
 		&i.Name,
 		&i.Color,
 		&i.Price,
+		&i.Quantity,
 		&i.CreatedAt,
 	)
 	return i, err
@@ -48,7 +55,7 @@ func (q *Queries) DeleteFruit(ctx context.Context, id int64) error {
 }
 
 const getFruit = `-- name: GetFruit :one
-SELECT id, name, color, price, created_at FROM fruit
+SELECT id, name, color, price, quantity, created_at FROM fruit
 WHERE id = $1 LIMIT 1
 `
 
@@ -60,13 +67,14 @@ func (q *Queries) GetFruit(ctx context.Context, id int64) (Fruit, error) {
 		&i.Name,
 		&i.Color,
 		&i.Price,
+		&i.Quantity,
 		&i.CreatedAt,
 	)
 	return i, err
 }
 
 const listFruits = `-- name: ListFruits :many
-SELECT id, name, color, price, created_at FROM fruit
+SELECT id, name, color, price, quantity, created_at FROM fruit
 ORDER BY id LIMIT $1 OFFSET $2
 `
 
@@ -89,6 +97,7 @@ func (q *Queries) ListFruits(ctx context.Context, arg ListFruitsParams) ([]Fruit
 			&i.Name,
 			&i.Color,
 			&i.Price,
+			&i.Quantity,
 			&i.CreatedAt,
 		); err != nil {
 			return nil, err
@@ -105,7 +114,7 @@ const updateFruit = `-- name: UpdateFruit :one
 UPDATE fruit
   set price = $2
 WHERE id = $1
-RETURNING id, name, color, price, created_at
+RETURNING id, name, color, price, quantity, created_at
 `
 
 type UpdateFruitParams struct {
@@ -121,6 +130,7 @@ func (q *Queries) UpdateFruit(ctx context.Context, arg UpdateFruitParams) (Fruit
 		&i.Name,
 		&i.Color,
 		&i.Price,
+		&i.Quantity,
 		&i.CreatedAt,
 	)
 	return i, err

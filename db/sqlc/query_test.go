@@ -11,9 +11,10 @@ import (
 
 func CreateRandomFruit(t *testing.T) Fruit {
 	arg := CreateFruitParams{
-		Name:  util.RandomName(),
-		Color: util.RandomColor(),
-		Price: int64(util.RandomPrice()),
+		Name:     util.RandomName(),
+		Color:    util.RandomColor(),
+		Price:    int64(util.RandomPrice()),
+		Quantity: int64(util.RandomQuantity()),
 	}
 
 	fruit, err := testStore.CreateFruit(context.Background(), arg)
@@ -23,6 +24,7 @@ func CreateRandomFruit(t *testing.T) Fruit {
 	require.Equal(t, arg.Name, fruit.Name)
 	require.Equal(t, arg.Color, fruit.Color)
 	require.Equal(t, arg.Price, fruit.Price)
+	require.Equal(t, arg.Quantity, fruit.Quantity)
 
 	require.NotZero(t, fruit.ID)
 	require.NotZero(t, fruit.CreatedAt)
@@ -45,6 +47,7 @@ func TestGetFruit(t *testing.T) {
 	require.Equal(t, fruit1.Name, fruit2.Name)
 	require.Equal(t, fruit1.Color, fruit2.Color)
 	require.Equal(t, fruit1.Price, fruit2.Price)
+	require.Equal(t, fruit1.Quantity, fruit2.Quantity)
 	require.WithinDuration(t, fruit1.CreatedAt, fruit2.CreatedAt, time.Second)
 
 }
@@ -85,6 +88,7 @@ func TestUpdateFruit(t *testing.T) {
 	require.Equal(t, fruit1.Name, fruit2.Name)
 	require.Equal(t, fruit1.Color, fruit2.Color)
 	require.Equal(t, arg.Price, fruit2.Price)
+	require.Equal(t, fruit1.Quantity, fruit2.Quantity)
 	require.WithinDuration(t, fruit1.CreatedAt, fruit2.CreatedAt, time.Second)
 
 }

@@ -33,3 +33,7 @@ func RandomName() string {
 func RandomPrice() int {
 	return int(RandInt(1, 10))
 }
+
+func RandomQuantity() int {
+	return int(RandInt(1, 100))
+}
