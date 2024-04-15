@@ -4,8 +4,8 @@ run-name: ${{ github.actor }} is testing out "Unit Test" with GitHub Actions ðŸš
 on:
   push:
     branches: 
-      - '*'
-      - '!main'
+      - 'dev'
+      
   pull_request:
     branches: [ "main" ]
 
