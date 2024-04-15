@@ -15,11 +15,12 @@ func RequestLogger() gin.HandlerFunc {
 
 		latency := time.Since(t)
 
-		fmt.Printf("%s %s %s %s\n",
+		fmt.Printf("%s %s %s %s %s\n",
 			ctx.Request.Method,
 			ctx.Request.RequestURI,
 			ctx.Request.Proto,
 			latency,
+			ctx.Request.Host,
 		)
 
 	}
@@ -31,10 +32,11 @@ func ResponseLogger() gin.HandlerFunc {
 
 		ctx.Next()
 
-		fmt.Printf("%d %s %s\n",
+		fmt.Printf("%d %s %s %s\n",
 			ctx.Writer.Status(),
 			ctx.Request.Method,
 			ctx.Request.RequestURI,
+			ctx.Request.Host,
 		)
 	}
 }
