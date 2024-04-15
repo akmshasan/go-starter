@@ -17,7 +17,7 @@ type Server struct {
 func NewServer(store db.Store) *Server {
 
 	// Set GIN_MODE=release for production
-	gin.SetMode(gin.ReleaseMode)
+	// gin.SetMode(gin.ReleaseMode)
 
 	server := &Server{store: store}
 	router := gin.Default()
