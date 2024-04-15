@@ -3,7 +3,7 @@ run-name: ${{ github.actor }} is testing out "Unit Test" with GitHub Actions ðŸš
 
 on:
   push:
-    branches: [ "main" ]
+    branches: [ "*" ]
   pull_request:
     branches: [ "main" ]
 
