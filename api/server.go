@@ -3,23 +3,32 @@ package api
 import (
 	db "github.com/akmshasan/fruit-store/db/sqlc"
 	middleware "github.com/akmshasan/fruit-store/middleware"
+	"github.com/akmshasan/fruit-store/util"
 	"github.com/gin-gonic/gin"
 	"github.com/prometheus/client_golang/prometheus/promhttp"
 )
 
 // Server serve all HTTP requests for fruit-store
 type Server struct {
+	config util.Config
 	store  db.Store
 	router *gin.Engine
 }
 
 // NewServer creates a new HTTP server and setup routing
-func NewServer(store db.Store) *Server {
+func NewServer(config util.Config, store db.Store) (*Server, error) {
 
+	server := &Server{config: config, store: store}
+
+	server.setupRouter()
+	return server, nil
+}
+
+func (server *Server) setupRouter() {
 	// Set GIN_MODE=release for production
 	// gin.SetMode(gin.ReleaseMode)
 
-	server := &Server{store: store}
+	// Initialize router
 	router := gin.Default()
 
 	// Set a static favicon.ico
@@ -42,7 +51,6 @@ func NewServer(store db.Store) *Server {
 	router.PUT("/fruits", server.updateFruit)
 
 	server.router = router
-	return server
 }
 
 // Runs the server on a specific address
